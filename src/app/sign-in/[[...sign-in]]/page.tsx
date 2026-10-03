@@ -1,16 +1,12 @@
 import { SignIn } from "@clerk/nextjs";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import ParticlesBackground from "@/components/givn/ParticlesBackground";
+import ParticlesBackground from "@/components/ParticlesBackground";
 
 export default function Page() {
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen bg-[#020403] overflow-hidden selection:bg-emerald-500 selection:text-black">
-      
-      {/* Fond animé */}
       <ParticlesBackground />
-      
-      {/* Bouton Retour */}
       <div className="absolute top-8 left-8 z-20">
         <Link href="/" className="group flex items-center gap-2 text-zinc-500 hover:text-white transition-colors text-sm font-medium">
             <div className="p-2 rounded-full bg-white/5 group-hover:bg-white/10 border border-white/5 transition-all">
@@ -19,11 +15,7 @@ export default function Page() {
             Back to Givn
         </Link>
       </div>
-
-      {/* Contenu */}
       <div className="relative z-10 flex flex-col items-center gap-8 animate-in fade-in zoom-in duration-500">
-        
-        {/* Logo Givn (Texte ou SVG) */}
         <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full border border-white/10 bg-gradient-to-br from-emerald-500/20 to-transparent flex items-center justify-center">
                 <div className="w-3 h-3 bg-emerald-400 rounded-full shadow-[0_0_10px_#34d399]"></div>
@@ -53,7 +45,7 @@ export default function Page() {
         />
         
         <p className="text-zinc-600 text-xs max-w-xs text-center">
-            By accessing the admin panel, you agree to our strict <span className="text-zinc-500 underline cursor-pointer hover:text-emerald-400">verification protocols</span>.
+            Learn how donation evidence is published in our <Link href="/methodology" className="text-zinc-500 underline hover:text-emerald-400">methodology</Link>.
         </p>
       </div>
     </div>
