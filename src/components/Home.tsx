@@ -63,7 +63,7 @@ export default function Home({ leaderboard: brands, totalVolume, recentActivity,
     <div className="min-h-screen flex flex-col relative bg-[#020403] text-white">
       <div className="fixed top-0 w-full z-40 pointer-events-none h-24 bg-gradient-to-b from-black/50 to-transparent lg:hidden" />
 
-      <main className="flex-1 pt-10 md:pt-24 w-full px-4 relative">
+      <div className="flex-1 pt-10 md:pt-24 w-full px-4 relative">
         <ParticlesBackground />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start relative w-full z-10">
@@ -270,7 +270,7 @@ export default function Home({ leaderboard: brands, totalVolume, recentActivity,
             </div>
           </div>
         </div>
-      </main>
+      </div>
       <footer className="border-t border-white/10 bg-black py-20 px-6 mt-20">
         <div className="w-full grid grid-cols-1 md:grid-cols-4 gap-16 text-sm max-w-7xl mx-auto">
           <div className="col-span-1 md:col-span-1">
