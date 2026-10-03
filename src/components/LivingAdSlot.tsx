@@ -9,20 +9,16 @@ export interface Ad {
     type: AdType;
 }
 
-// ==========================================
-// COMPOSANTS GRAPHIQUES (FINAUX & ACCESSIBLES)
-// ==========================================
-
-/* --- ARBRE SIMPLE (Inchangé) --- */
-const TreeGraphic = memo(({ grown }: { grown: boolean }) => (
-    <svg 
-        role="img" 
-        aria-label="Un arbre qui pousse symbolisant la reforestation"
-        viewBox="0 0 100 160" 
-        className={`w-full h-full absolute bottom-0 left-0 pointer-events-none transition-all duration-1000 ${grown ? 'opacity-100 ad-grown' : 'opacity-0'}`} 
-        preserveAspectRatio="xMidYBottom slice"
-    >
-        <path d="M48 160 L48 100 Q48 90 45 80" stroke="#8B4513" strokeWidth="4" fill="none" strokeLinecap="round" className="tree-trunk-simple" />
+const Graphic = memo(function Graphic({ type, grown }: { type: AdType; grown: boolean }) {
+    const id = useId();
+    const chromeGradId = `chromeGrad-${id}`;
+    const waterDropGradId = `waterDropGrad-${id}`;
+    const ecgPath = "M 12 70 H 25 L 30 50 L 40 90 L 45 70 H 65 L 70 60 L 80 80 L 85 70 H 88";
+    const animDuration = "5s";
+    return (
+      <svg role="img" aria-label={`Illustration: ${type}`} viewBox={type === "tree" || type === "water" ? "0 0 100 160" : "0 0 100 140"} preserveAspectRatio="xMidYMax slice" className={`w-full h-full absolute bottom-0 left-0 pointer-events-none transition-opacity duration-500 ${grown ? "opacity-100 ad-grown" : "opacity-0"}`}>
+        {type === "tree" && (<>
+<path d="M48 160 L48 100 Q48 90 45 80" stroke="#8B4513" strokeWidth="4" fill="none" strokeLinecap="round" className="tree-trunk-simple" />
         <path d="M48 160 L48 100" stroke="#8B4513" strokeWidth="4" className="tree-trunk-simple" />
         <g className="swaying-branch" style={{ transformOrigin: '48px 100px' }}>
             <path d="M48 110 Q 30 100 20 90" stroke="#8B4513" strokeWidth="2" fill="none" className="branch-grow" />
@@ -36,25 +32,9 @@ const TreeGraphic = memo(({ grown }: { grown: boolean }) => (
             <circle cx="35" cy="70" r="4" fill="#4ade80" className="leaf-pop" style={{animationDelay: '1.5s'}} />
             <circle cx="60" cy="70" r="4" fill="#4ade80" className="leaf-pop" style={{animationDelay: '1.6s'}} />
         </g>
-    </svg>
-));
-TreeGraphic.displayName = 'TreeGraphic';
-
-/* --- ROBINET (Inchangé) --- */
-const PumpGraphic = memo(({ grown }: { grown: boolean }) => {
-    const id = useId();
-    const chromeGradId = `chromeGrad-${id}`;
-    const waterDropGradId = `waterDropGrad-${id}`;
-
-    return (
-        <svg 
-            role="img" 
-            aria-label="Une pompe distribuant de l'eau potable"
-            viewBox="0 0 100 160" 
-            className={`w-full h-full absolute bottom-0 left-0 pointer-events-none transition-opacity duration-300 ${grown ? 'opacity-100 ad-grown' : 'opacity-0'}`} 
-            preserveAspectRatio="xMidYBottom slice"
-        >
-            <defs>
+        </>)}
+        {type === "water" && (<>
+<defs>
                 <linearGradient id={chromeGradId} x1="0" y1="0" x2="1" y2="0">
                     <stop offset="0%" stopColor="#94a3b8" />
                     <stop offset="50%" stopColor="#e2e8f0" />
@@ -83,22 +63,9 @@ const PumpGraphic = memo(({ grown }: { grown: boolean }) => {
                 <circle cx="10" cy="160" r="1.5" fill={`url(#${waterDropGradId})`} className="splash-particle" style={{animationDelay: '0.8s'}} />
                 <circle cx="20" cy="160" r="1" fill={`url(#${waterDropGradId})`} className="splash-particle" style={{animationDelay: '1.1s'}} />
             </g>
-        </svg>
-    );
-});
-PumpGraphic.displayName = 'PumpGraphic';
-
-
-/* --- MAISON (Inchangé) --- */
-const HouseGraphic = memo(({ grown }: { grown: boolean }) => (
-    <svg 
-        role="img" 
-        aria-label="Construction d'une maison pour l'aide au logement"
-        viewBox="0 0 100 140" 
-        className={`w-full h-full absolute bottom-0 left-0 pointer-events-none transition-opacity duration-300 ${grown ? 'opacity-100 ad-grown' : 'opacity-0'}`} 
-        preserveAspectRatio="xMidYBottom slice"
-    >
-        <g className="house-base">
+        </>)}
+        {type === "house" && (<>
+<g className="house-base">
             <rect x="25" y="70" width="50" height="50" fill="#e2e8f0" stroke="#94a3b8" strokeWidth="1" className="house-fill" />
         </g>
         <g className="house-roof">
@@ -108,20 +75,9 @@ const HouseGraphic = memo(({ grown }: { grown: boolean }) => (
         <rect x="43" y="95" width="14" height="25" fill="#78350f" className="house-pop" style={{ animationDelay: '1s' }} />
         <rect x="30" y="80" width="10" height="10" fill="#93c5fd" className="house-pop" style={{ animationDelay: '1.2s' }} />
         <rect x="60" y="80" width="10" height="10" fill="#93c5fd" className="house-pop" style={{ animationDelay: '1.3s' }} />
-    </svg>
-));
-HouseGraphic.displayName = 'HouseGraphic';
-
-/* --- ÉCOLE (Inchangé) --- */
-const SchoolGraphic = memo(({ grown }: { grown: boolean }) => (
-    <svg 
-        role="img" 
-        aria-label="Construction d'une école pour le soutien à l'éducation"
-        viewBox="0 0 100 140" 
-        className={`w-full h-full absolute bottom-0 left-0 pointer-events-none transition-opacity duration-300 ${grown ? 'opacity-100 ad-grown' : 'opacity-0'}`} 
-        preserveAspectRatio="xMidYBottom slice"
-    >
-        <g className="house-base">
+        </>)}
+        {type === "school" && (<>
+<g className="house-base">
             <rect x="15" y="70" width="70" height="50" fill="#9a3412" stroke="#7c2d12" strokeWidth="1" className="house-fill" />
             <rect x="40" y="90" width="20" height="30" fill="#fcd34d" className="house-fill" style={{ opacity: 0.3 }} />
         </g>
@@ -137,35 +93,24 @@ const SchoolGraphic = memo(({ grown }: { grown: boolean }) => (
         </g>
         <rect x="20" y="80" width="12" height="15" fill="#93c5fd" className="house-pop" style={{ animationDelay: '1s' }} />
         <rect x="68" y="80" width="12" height="15" fill="#93c5fd" className="house-pop" style={{ animationDelay: '1.2s' }} />
-    </svg>
-));
-SchoolGraphic.displayName = 'SchoolGraphic';
-
-/* --- OCÉAN (MÉDUSE 15 SEC) --- */
-const OceanGraphic = memo(({ grown }: { grown: boolean }) => (
-    <svg 
-        role="img" 
-        aria-label="Vie marine animée symbolisant la protection des océans"
-        viewBox="0 0 100 140" 
-        className={`w-full h-full absolute bottom-0 left-0 pointer-events-none transition-opacity duration-500 ${grown ? 'opacity-100' : 'opacity-0'}`} 
-        preserveAspectRatio="xMidYBottom slice"
-    >
-        <defs>
-            <linearGradient id="deepSeaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="#020617" /> 
-                <stop offset="50%" stopColor="#082f49" /> 
-                <stop offset="100%" stopColor="#0c4a6e" /> 
+        </>)}
+        {type === "ocean" && (<>
+<defs>
+            <linearGradient id={`${id}-deepSeaGrad`} x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#020617" />
+                <stop offset="50%" stopColor="#082f49" />
+                <stop offset="100%" stopColor="#0c4a6e" />
             </linearGradient>
-            <linearGradient id="jellyBody" x1="0%" y1="0%" x2="0%" y2="100%">
+            <linearGradient id={`${id}-jellyBody`} x1="0%" y1="0%" x2="0%" y2="100%">
                 <stop offset="0%" stopColor="#ccfbf1" stopOpacity="0.9"/>
                 <stop offset="100%" stopColor="#2dd4bf" stopOpacity="0.4"/>
             </linearGradient>
-             <filter id="bioGlow">
+             <filter id={`${id}-bioGlow`}>
                 <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
                 <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
             </filter>
         </defs>
-        <rect x="0" y="0" width="100" height="160" fill="url(#deepSeaGrad)" />
+        <rect x="0" y="0" width="100" height="160" fill={`url(#${id}-deepSeaGrad)`} />
         <g className="fish-school" opacity="0.3">
             <path d="M0 0 L5 2 L0 4 Z" fill="#7dd3fc" transform="translate(0, 40)" />
             <path d="M0 0 L4 1.5 L0 3 Z" fill="#7dd3fc" transform="translate(10, 45)" />
@@ -175,13 +120,13 @@ const OceanGraphic = memo(({ grown }: { grown: boolean }) => (
             <path d="M-10 -20 L 30 160 L 50 160 L 10 -20 Z" fill="#fff" opacity="0.1" />
             <path d="M20 -20 L 70 160 L 90 160 L 40 -20 Z" fill="#fff" opacity="0.1" style={{animationDelay:'1s'}} />
         </g>
-        {/* CHANGEMENT ICI : Vitesse ajustée à 13s */}
+
         <g className="jellyfish-swim" style={{ animationDuration: '13s' }}>
             <g className="jellyfish-bell-pulse">
-                <path d="M 30 90 Q 50 60 70 90 L 68 95 Q 50 85 32 95 Z" fill="url(#jellyBody)" filter="url(#bioGlow)" />
-                <ellipse cx="50" cy="85" rx="10" ry="5" fill="#5eead4" opacity="0.6" filter="url(#bioGlow)" className="bio-electric" />
+                <path d="M 30 90 Q 50 60 70 90 L 68 95 Q 50 85 32 95 Z" fill={`url(#${id}-jellyBody)`} filter={`url(#${id}-bioGlow)`} />
+                <ellipse cx="50" cy="85" rx="10" ry="5" fill="#5eead4" opacity="0.6" filter={`url(#${id}-bioGlow)`} className="bio-electric" />
             </g>
-            <g className="jellyfish-tentacles bio-electric" fill="none" stroke="#5eead4" strokeWidth="1.5" strokeLinecap="round" filter="url(#bioGlow)">
+            <g className="jellyfish-tentacles bio-electric" fill="none" stroke="#5eead4" strokeWidth="1.5" strokeLinecap="round" filter={`url(#${id}-bioGlow)`}>
                 <path d="M 38 95 Q 35 110 40 125" className="tentacle-1" />
                 <path d="M 46 95 Q 46 115 48 135" className="tentacle-2" />
                 <path d="M 54 95 Q 54 115 52 135" className="tentacle-3" />
@@ -193,107 +138,70 @@ const OceanGraphic = memo(({ grown }: { grown: boolean }) => (
             <circle cx="60" cy="140" r="1" fill="#a5f3fc" className="bubble" style={{animationDelay: '1.5s'}} />
             <circle cx="85" cy="140" r="2" fill="#a5f3fc" className="bubble" style={{animationDelay: '2.8s'}} />
         </g>
-    </svg>
-));
-OceanGraphic.displayName = 'OceanGraphic';
-
-
-/* --- SANTÉ (VITESSE 5S & SYNCHRO PARFAITE) --- */
-const HealthGraphic = memo(({ grown }: { grown: boolean }) => {
-    // Tracé recadré (reste dans le rectangle)
-    const ecgPath = "M 12 70 H 25 L 30 50 L 40 90 L 45 70 H 65 L 70 60 L 80 80 L 85 70 H 88";
-    
-    // VITESSE RALENTIE ICI (5s)
-    const animDuration = "5s"; 
-
-    return (
-    <svg 
-        role="img" 
-        aria-label="Rythme cardiaque sur moniteur symbolisant l'aide médicale"
-        viewBox="0 0 100 140" 
-        className={`w-full h-full absolute bottom-0 left-0 pointer-events-none transition-opacity duration-300 ${grown ? 'opacity-100 ad-grown' : 'opacity-0'}`} 
-        preserveAspectRatio="xMidYBottom slice"
-    >
-        <defs>
-            <linearGradient id="ecgRedGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+        </>)}
+        {type === "health" && (<>
+<defs>
+            <linearGradient id={`${id}-ecgRedGrad`} x1="0%" y1="0%" x2="100%" y2="0%">
                 <stop offset="0%" stopColor="#ef4444" />
                 <stop offset="50%" stopColor="#f87171" />
                 <stop offset="100%" stopColor="#ef4444" />
             </linearGradient>
-             <filter id="ecgRedGlow">
+             <filter id={`${id}-ecgRedGlow`}>
                 <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
                 <feMerge>
                     <feMergeNode in="coloredBlur"/>
                     <feMergeNode in="SourceGraphic"/>
                 </feMerge>
             </filter>
-            <pattern id="gridRed" width="10" height="10" patternUnits="userSpaceOnUse">
+            <pattern id={`${id}-gridRed`} width="10" height="10" patternUnits="userSpaceOnUse">
                 <path d="M 10 0 L 0 0 0 10" fill="none" stroke="#ef4444" strokeWidth="0.5" opacity="0.2"/>
             </pattern>
         </defs>
-        
-        {/* Écran */}
-        <rect x="5" y="40" width="90" height="60" rx="4" fill="url(#gridRed)" className="house-base" opacity="0.5" />
-        <rect x="5" y="40" width="90" height="60" rx="4" stroke="url(#ecgRedGrad)" strokeWidth="1" fill="none" opacity="0.3" />
-        
-        {/* Ligne ECG */}
-        <g filter="url(#ecgRedGlow)">
-             {/* ASTUCE PRO : pathLength="1" force le navigateur à considérer que la ligne fait 1 unité de long.
-                Cela permet de synchroniser parfaitement avec l'animation CSS sans deviner les pixels.
-             */}
-             <path 
-                d={ecgPath} 
-                stroke="url(#ecgRedGrad)" 
-                strokeWidth="2.5" 
-                fill="none" 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
+
+        <rect x="5" y="40" width="90" height="60" rx="4" fill={`url(#${id}-gridRed)`} className="house-base" opacity="0.5" />
+        <rect x="5" y="40" width="90" height="60" rx="4" stroke={`url(#${id}-ecgRedGrad)`} strokeWidth="1" fill="none" opacity="0.3" />
+
+        <g filter={`url(#${id}-ecgRedGlow)`}>
+
+             <path
+                d={ecgPath}
+                stroke={`url(#${id}-ecgRedGrad)`}
+                strokeWidth="2.5"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 pathLength="1"
-                className="ecg-line" 
-                style={{ 
-                    strokeDasharray: "1 1", // 1 unité de plein, 1 unité de vide
-                    strokeDashoffset: 1,    // Commence caché (décalé de 1)
-                    animation: `draw-exact ${animDuration} linear infinite` 
-                }} 
+                className="ecg-line"
+                style={{
+                    strokeDasharray: "1 1",
+                    strokeDashoffset: 1,
+                    animation: `draw-exact ${animDuration} linear infinite`
+                }}
             />
             <style jsx>{`
                 @keyframes draw-exact {
-                    0% { stroke-dashoffset: 1; } /* Ligne cachée */
-                    100% { stroke-dashoffset: 0; } /* Ligne entièrement dessinée */
+                    0% { stroke-dashoffset: 1; }
+                    100% { stroke-dashoffset: 0; }
                 }
             `}</style>
         </g>
-        
-        {/* Point (blip) */}
-        <circle r="3" fill="#fda4af" className="ecg-blip" filter="url(#ecgRedGlow)" opacity="1">
-             {/* Le point suit le chemin. keyPoints="0;1" assure qu'il va du début (0) à la fin (1) linéairement */}
-             <animateMotion 
-                dur={animDuration} 
-                repeatCount="indefinite" 
-                path={ecgPath} 
+
+        <circle r="3" fill="#fda4af" className="ecg-blip" filter={`url(#${id}-ecgRedGlow)`} opacity="1">
+
+             <animateMotion
+                dur={animDuration}
+                repeatCount="indefinite"
+                path={ecgPath}
                 calcMode="linear"
                 keyPoints="0;1"
                 keyTimes="0;1"
              />
-             {/* Petit effet de clignotement pour le rendre vivant */}
+
              <animate attributeName="opacity" values="0.8;1;0.8" dur="1s" repeatCount="indefinite" />
         </circle>
-    </svg>
-    );
-});
-HealthGraphic.displayName = 'HealthGraphic';
-
-
-/* --- NOURRITURE (Inchangé) --- */
-const FoodGraphic = memo(({ grown }: { grown: boolean }) => (
-    <svg 
-        role="img" 
-        aria-label="Blé qui pousse symbolisant l'agriculture et l'alimentation"
-        viewBox="0 0 100 140" 
-        className={`w-full h-full absolute bottom-0 left-0 pointer-events-none transition-opacity duration-300 ${grown ? 'opacity-100 ad-grown' : 'opacity-0'}`} 
-        preserveAspectRatio="xMidYBottom slice"
-    >
-        <g className="wheat-stem">
+        </>)}
+        {type === "food" && (<>
+<g className="wheat-stem">
             <path d="M50 140 Q 50 100 50 60" stroke="#a16207" strokeWidth="3" fill="none" />
             <path d="M25 140 Q 30 110 30 70" stroke="#854d0e" strokeWidth="2.5" fill="none" style={{ animationDelay: '0.2s' }} />
             <path d="M75 140 Q 70 110 70 70" stroke="#854d0e" strokeWidth="2.5" fill="none" style={{ animationDelay: '0.4s' }} />
@@ -310,26 +218,15 @@ const FoodGraphic = memo(({ grown }: { grown: boolean }) => (
             <ellipse cx="70" cy="55" rx="5" ry="15" fill="#ca8a04" />
             <path d="M70 40 L 72 30 M 74 45 L 78 35" stroke="#fde047" strokeWidth="1" />
         </g>
-    </svg>
-));
-FoodGraphic.displayName = 'FoodGraphic';
-
-/* --- ÉNERGIE (Inchangé) --- */
-const EnergyGraphic = memo(({ grown }: { grown: boolean }) => (
-    <svg 
-        role="img" 
-        aria-label="Éolienne et soleil symbolisant l'énergie verte"
-        viewBox="0 0 100 140" 
-        className={`w-full h-full absolute bottom-0 left-0 pointer-events-none transition-opacity duration-300 ${grown ? 'opacity-100 ad-grown' : 'opacity-0'}`} 
-        preserveAspectRatio="xMidYBottom slice"
-    >
-        <defs>
-            <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+        </>)}
+        {type === "energy" && (<>
+<defs>
+            <linearGradient id={`${id}-skyGrad`} x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="#0f172a" stopOpacity="0" />
                 <stop offset="100%" stopColor="#1e293b" stopOpacity="0.8" />
             </linearGradient>
         </defs>
-        <rect x="0" y="0" width="100" height="140" fill="url(#skyGrad)" />
+        <rect x="0" y="0" width="100" height="140" fill={`url(#${id}-skyGrad)`} />
         <g className="cloud" style={{opacity: 0.4}}>
             <path d="M10 20 Q 20 10 30 20 T 50 20 T 60 30 L 10 30 Z" fill="#94a3b8" />
         </g>
@@ -354,29 +251,25 @@ const EnergyGraphic = memo(({ grown }: { grown: boolean }) => (
             <line x1="80" y1="60" x2="100" y2="60" stroke="#fff" strokeWidth="0.5" className="bird" style={{animationDuration: '1.5s', animationDelay: '0.5s'}} />
         </g>
         <path d="M0 0 Q 3 -3 6 0" stroke="#fff" fill="none" strokeWidth="1" className="bird" style={{opacity: 0.8}} />
-    </svg>
-));
-EnergyGraphic.displayName = 'EnergyGraphic';
+        </>)}
+      </svg>
+    );
+});
 
-
-// ==========================================
-// COMPOSANT PRINCIPAL (Inchangé)
-// ==========================================
-
-export default function LivingAdSlot({ 
-    pool, 
-    initialDelay, 
-    cycleDuration, 
-    startIndex = 0 
-}: { 
-    pool: Ad[], 
-    initialDelay: number, 
+export default function LivingAdSlot({
+    pool,
+    initialDelay,
+    cycleDuration,
+    startIndex = 0
+}: {
+    pool: Ad[],
+    initialDelay: number,
     cycleDuration: number,
-    startIndex?: number 
+    startIndex?: number
 }) {
     const [adIndex, setAdIndex] = useState(startIndex % pool.length);
     const [phase, setPhase] = useState('waiting');
-    
+
     useEffect(() => {
         const t = setTimeout(() => setPhase('seed'), initialDelay);
         return () => clearTimeout(t);
@@ -390,11 +283,11 @@ export default function LivingAdSlot({
             case 'growing': timer = setTimeout(() => setPhase('blooming'), 1200); break;
             case 'blooming': timer = setTimeout(() => setPhase('displayed'), 600); break;
             case 'displayed': timer = setTimeout(() => setPhase('withering'), cycleDuration); break;
-            case 'withering': 
-                timer = setTimeout(() => { 
+            case 'withering':
+                timer = setTimeout(() => {
                     setAdIndex((prev) => (prev + 1) % pool.length);
-                    setPhase('reset'); 
-                }, 600); 
+                    setPhase('reset');
+                }, 600);
                 break;
             case 'reset': timer = setTimeout(() => setPhase('seed'), 50); break;
         }
@@ -406,34 +299,23 @@ export default function LivingAdSlot({
 
     const graphicType = currentAd.type;
     const isGrown = phase === 'blooming' || phase === 'displayed' || phase === 'withering';
-    const isGrowType = ['tree','house','school','food','energy','health','ocean'].includes(graphicType);
 
     return (
         <div className="relative pl-0 mb-6 min-h-[140px] flex items-end">
             <div className="absolute left-0 bottom-0 w-full h-[1px] bg-gradient-to-r from-emerald-900/50 to-transparent"></div>
 
-            {/* Le graphique (largeur fixe 96px = w-24) */}
             <div className="absolute left-0 bottom-0 w-24 h-[160px] flex flex-col justify-end items-center pointer-events-none z-0">
-                 {phase === 'seed' && isGrowType && (
+                 {phase === 'seed' && graphicType !== 'water' && (
                      <div className="w-2 h-2 bg-emerald-200 rounded-full glow-dot-green absolute bottom-0 animate-seed-fall"></div>
                  )}
-                 
-                 {graphicType === 'tree' && <TreeGraphic grown={isGrown} />}
-                 {graphicType === 'house' && <HouseGraphic grown={isGrown} />}
-                 {graphicType === 'water' && <PumpGraphic grown={isGrown} />}
-                 {graphicType === 'school' && <SchoolGraphic grown={isGrown} />}
-                 {graphicType === 'ocean' && <OceanGraphic grown={isGrown} />}
-                 {graphicType === 'health' && <HealthGraphic grown={isGrown} />}
-                 {graphicType === 'food' && <FoodGraphic grown={isGrown} />}
-                 {graphicType === 'energy' && <EnergyGraphic grown={isGrown} />}
+                <Graphic type={graphicType} grown={isGrown} />
             </div>
 
-            {/* La boîte de texte ajustée */}
             {(phase === 'blooming' || phase === 'displayed' || phase === 'withering') && (
-                <div className={`glass-panel rounded-xl p-3 relative overflow-hidden group hover:bg-emerald-500/5 transition-all cursor-pointer flex-1 ml-24 z-10 origin-bottom-left ${phase === 'blooming' ? 'animate-ad-grow' : ''} ${phase === 'withering' ? 'animate-wither' : ''}`}>
-                    <div className="flex justify-between items-start mb-1.5">
+                <div className={`glass-panel rounded-xl p-3 relative overflow-hidden group hover:bg-emerald-500/5 transition-all flex-1 ml-24 z-10 origin-bottom-left ${phase === 'blooming' ? 'animate-ad-grow' : ''} ${phase === 'withering' ? 'animate-wither' : ''}`}>
+                    <div className="flex flex-wrap gap-1 justify-between items-start mb-1.5">
                         <div className="flex items-center gap-2 text-white"><span className="text-xs font-semibold tracking-wide text-emerald-50">{currentAd.title}</span></div>
-                        <span className="text-[8px] text-emerald-500/50 uppercase tracking-widest border border-emerald-500/20 px-1 py-0.5 rounded">Ad</span>
+                        <span className="text-[8px] text-emerald-500/50 uppercase tracking-widest border border-emerald-500/20 px-1 py-0.5 rounded">Illustration</span>
                     </div>
                     <p className="text-[11px] text-zinc-300 leading-relaxed font-light">{currentAd.subtitle}</p>
                     <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
