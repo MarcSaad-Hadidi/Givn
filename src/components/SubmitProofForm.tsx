@@ -12,7 +12,7 @@ export default function SubmitProofForm({ brands }: { brands: Pick<Brand, "id" |
   const [state, formAction, pending] = useActionState(uploadProof, initialState);
   const [fileName, setFileName] = useState("");
   return (
-    <form action={formAction} className="space-y-5">
+    <form action={formAction} onReset={() => setFileName("")} className="space-y-5">
       <div>
         <label htmlFor="proof-brand" className="block text-xs uppercase text-zinc-500 mb-2 font-bold">Brand Entity</label>
         <select id="proof-brand" name="brandId" required className={inputClass}>
@@ -39,7 +39,7 @@ export default function SubmitProofForm({ brands }: { brands: Pick<Brand, "id" |
       </div>
       <div>
         <label htmlFor="proof-file" className="block text-xs uppercase text-zinc-500 mb-2 font-bold">Evidence Document</label>
-        <div className="relative border border-dashed border-white/20 rounded-xl bg-white/5 hover:bg-white/10">
+        <div className="relative border border-dashed border-white/20 rounded-xl bg-white/5 hover:bg-white/10 focus-within:ring-2 focus-within:ring-emerald-400">
           <input id="proof-file" type="file" name="file" accept="application/pdf,image/png,image/jpeg" required onChange={(event) => setFileName(event.target.files?.[0]?.name || "")} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
           <div className="p-8 flex flex-col items-center text-zinc-400">
             <UploadCloud size={24} className="mb-2" /><span className="text-xs font-bold break-all">{fileName || "Click to upload proof"}</span><span className="text-xs mt-1">PDF, PNG, JPG (Max 5MB)</span>
