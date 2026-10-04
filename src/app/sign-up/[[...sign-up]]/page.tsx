@@ -1,7 +1,7 @@
 import { SignUp } from "@clerk/nextjs";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import ParticlesBackground from "@/components/givn/ParticlesBackground";
+import ParticlesBackground from "@/components/ParticlesBackground";
 
 export default function Page() {
   return (
